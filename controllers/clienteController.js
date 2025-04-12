@@ -11,3 +11,20 @@ async function getDadosCliente(req, resposta) {
 }
 
 module.exports = { getDadosCliente };
+
+
+exports.atualizarCliente = async (req, res) => {
+    const { id } = req.params;
+    const { nome_fantasia, razao_social, cnpj, segmento, telefone,site } = req.body;
+    try {
+        const linhasAfetadas = await clienteService.atualizarCliente(id, nome_fantasia, razao_social, cnpj, segmento, telefone, site);
+        if (linhasAfetadas > 0) {
+            res.status(200).json({ mensagem: 'Cliente atualizado com sucesso!' });
+        } else {
+            res.status(404).json({ mensagem: 'Cliente não encontrado.' });
+        }
+    } catch (erro) {
+        res.status(500).json({ erro: 'Erro ao atualizar o cliente.', detalhes: erro });
+    }
+};
+module.exports = { getDadosCliente };
